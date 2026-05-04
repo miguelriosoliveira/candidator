@@ -47,12 +47,12 @@ export function CandidateList() {
 
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<h2 className="text-slate-800 mb-2">Candidates</h2>
+			<h2 className="text-slate-800 dark:text-slate-100 mb-2 transition-colors">Candidates</h2>
 
 			{isLoading ? (
-				<div className="text-center p-10 bg-slate-50 rounded-lg text-slate-500">Loading candidates...</div>
+				<div className="text-center p-10 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">Loading candidates...</div>
 			) : error ? (
-				<div className="text-center p-10 bg-red-50 rounded-lg text-red-500">Error: {error}</div>
+				<div className="text-center p-10 bg-red-50 dark:bg-red-900/20 rounded-lg text-red-500 dark:text-red-400 transition-colors">Error: {error}</div>
 			) : (
 				<>
 					<div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
