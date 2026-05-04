@@ -39,7 +39,7 @@ type ListResponse struct {
 		PerPage    int `json:"per_page"`
 		Page       int `json:"page"`
 		TotalPages int `json:"total_pages"`
-	}
+	} `json:"pagination"`
 }
 
 const perPage = 25
