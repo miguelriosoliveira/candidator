@@ -6,15 +6,3 @@ services:
     ports:
       - '8080:8080'
     restart: unless-stopped
-
-  web:
-    build:
-      context: ./web
-    container_name: candidator-web
-    ports:
-      - '5173:5173'
-    env_file:
-      - ./web/.env
-    depends_on:
-      - server
-    restart: unless-stopped
