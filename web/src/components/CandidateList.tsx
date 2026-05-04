@@ -3,7 +3,6 @@ import type { Candidate, PaginationData } from "../types";
 import { CandidateRow } from "./CandidateRow";
 import { Pagination } from "./Pagination";
 import { candidateRepository } from "../api/candidateRepository";
-import "./CandidateList.css";
 
 export function CandidateList() {
 	const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -47,16 +46,16 @@ export function CandidateList() {
 	}, [page]);
 
 	return (
-		<div className="candidate-list-container">
-			<h2>Candidates</h2>
+		<div className="flex flex-col gap-4 w-full">
+			<h2 className="text-slate-800 mb-2">Candidates</h2>
 
 			{isLoading ? (
-				<div className="loading-state">Loading candidates...</div>
+				<div className="text-center p-10 bg-slate-50 rounded-lg text-slate-500">Loading candidates...</div>
 			) : error ? (
-				<div className="error-state">Error: {error}</div>
+				<div className="text-center p-10 bg-red-50 rounded-lg text-red-500">Error: {error}</div>
 			) : (
 				<>
-					<div className="candidate-grid">
+					<div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
 						{candidates.map((candidate) => (
 							<CandidateRow key={candidate.id} candidate={candidate} />
 						))}
