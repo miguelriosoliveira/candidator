@@ -1,6 +1,7 @@
 import type { ApiResponse, CandidatesResponse, Candidate } from '../types';
+import { env } from '../env';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = env.VITE_API_URL;
 
 export const candidateRepository = {
 	async getCandidates(page?: number): Promise<ApiResponse<CandidatesResponse>> {
