@@ -68,6 +68,10 @@ describe('CandidateDetail', () => {
 			expect(screen.getByText('React')).toBeInTheDocument();
 			const img = screen.getByRole('img', { name: 'Alice Smith' }) as HTMLImageElement;
 			expect(img.src).toBe('https://example.com/alice.jpg');
+			expect(screen.getByRole('link', { name: /edit candidate/i })).toHaveAttribute(
+				'href',
+				'/candidates/1/edit',
+			);
 		});
 	});
 });

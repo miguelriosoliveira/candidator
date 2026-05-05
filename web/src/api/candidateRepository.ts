@@ -1,7 +1,28 @@
-import type { ApiResponse, CandidatesResponse, Candidate, CreateCandidateInput } from '../types';
+import type {
+	ApiResponse,
+	CandidatesResponse,
+	Candidate,
+	CreateCandidateInput,
+	UpdateCandidateInput,
+} from '../types';
 import { env } from '../env';
 
 const API_URL = env.VITE_API_URL;
+
+type ErrorBody = { status?: number; errors?: string[] };
+
+async function parseWriteResponse<T>(response: Response): Promise<ApiResponse<T>> {
+	const body = (await response.json()) as ApiResponse<T> | ErrorBody;
+
+	if (!response.ok) {
+		const errs = Array.isArray((body as ErrorBody).errors)
+			? (body as ErrorBody).errors!.join(', ')
+			: null;
+		throw new Error(errs ?? `${response.status} ${response.statusText}`);
+	}
+
+	return body as ApiResponse<T>;
+}
 
 export const candidateRepository = {
 	async getCandidates(page?: number): Promise<ApiResponse<CandidatesResponse>> {
@@ -31,16 +52,16 @@ export const candidateRepository = {
 			body: JSON.stringify(payload),
 		});
 
-		type ErrorBody = { status?: number; errors?: string[] };
-		const body = (await response.json()) as ApiResponse<Candidate> | ErrorBody;
+		return parseWriteResponse<Candidate>(response);
+	},
 
-		if (!response.ok) {
-			const errs = Array.isArray((body as ErrorBody).errors)
-				? (body as ErrorBody).errors!.join(', ')
-				: null;
-			throw new Error(errs ?? `${response.status} ${response.statusText}`);
-		}
+	async updateCandidate(id: number, payload: UpdateCandidateInput): Promise<ApiResponse<Candidate>> {
+		const response = await fetch(`${API_URL}/candidates/${id}`, {
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload),
+		});
 
-		return body as ApiResponse<Candidate>;
+		return parseWriteResponse<Candidate>(response);
 	},
 };

@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { CandidateList } from './components/CandidateList';
 import { CandidateDetail } from './components/CandidateDetail';
 import { CreateCandidate } from './components/CreateCandidate';
+import { EditCandidate } from './components/EditCandidate';
 
 export function App() {
 	return (
@@ -15,6 +16,7 @@ export function App() {
 				<Routes>
 					<Route path="/" element={<CandidateList />} />
 					<Route path="/candidates/new" element={<CreateCandidate />} />
+					<Route path="/candidates/:id/edit" element={<EditCandidate />} />
 					<Route path="/candidates/:id" element={<CandidateDetail />} />
 				</Routes>
 			</main>

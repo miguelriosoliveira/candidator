@@ -9,6 +9,7 @@ export interface Candidate {
 }
 
 export type CreateCandidateInput = Omit<Candidate, 'id'>;
+export type UpdateCandidateInput = CreateCandidateInput;
 
 export interface PaginationData {
 	per_page: number;

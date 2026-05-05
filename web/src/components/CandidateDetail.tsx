@@ -61,9 +61,17 @@ export function CandidateDetail() {
 				>
 					&larr; Back to candidates
 				</Link>
-				<h2 className="text-2xl font-semibold m-0 text-slate-800 dark:text-slate-100">
-					Candidate Profile
-				</h2>
+				<div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-2">
+					<h2 className="text-2xl font-semibold m-0 text-slate-800 dark:text-slate-100 shrink-0">
+						Candidate Profile
+					</h2>
+					<Link
+						to={`/candidates/${candidate.id}/edit`}
+						className="inline-flex items-center rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-500 no-underline shrink-0 w-fit"
+					>
+						Edit candidate
+					</Link>
+				</div>
 			</div>
 
 			<div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-6 sm:p-8 flex flex-col sm:flex-row gap-8 items-start">
