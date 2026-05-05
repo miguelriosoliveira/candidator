@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { CandidateList } from './CandidateList';
 import { candidateRepository } from '../api/candidateRepository';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -19,14 +20,22 @@ describe('CandidateList', () => {
 		// Return a never-resolving promise to keep it in a loading state
 		vi.mocked(candidateRepository.getCandidates).mockReturnValue(new Promise(() => {}));
 
-		render(<CandidateList />);
+		render(
+			<MemoryRouter>
+				<CandidateList />
+			</MemoryRouter>,
+		);
 		expect(screen.getByText('Loading candidates...')).toBeInTheDocument();
 	});
 
 	it('renders error state when the API fails', async () => {
 		vi.mocked(candidateRepository.getCandidates).mockRejectedValue(new Error('Network Error'));
 
-		render(<CandidateList />);
+		render(
+			<MemoryRouter>
+				<CandidateList />
+			</MemoryRouter>,
+		);
 
 		await waitFor(() => {
 			expect(screen.getByText('Error: Network Error')).toBeInTheDocument();
@@ -59,7 +68,11 @@ describe('CandidateList', () => {
 
 		vi.mocked(candidateRepository.getCandidates).mockResolvedValue(mockResponse);
 
-		render(<CandidateList />);
+		render(
+			<MemoryRouter>
+				<CandidateList />
+			</MemoryRouter>,
+		);
 
 		// Wait for loading to clear, and candidates to show up
 		await waitFor(() => {

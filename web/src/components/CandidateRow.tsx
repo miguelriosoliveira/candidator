@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { Candidate } from '../types';
 
 interface CandidateRowProps {
@@ -6,7 +7,10 @@ interface CandidateRowProps {
 
 export function CandidateRow({ candidate }: CandidateRowProps) {
 	return (
-		<div className="flex items-start p-4 bg-white dark:bg-slate-800 rounded-lg shadow-sm gap-4 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md dark:hover:shadow-slate-900/50">
+		<Link
+			to={`/candidates/${candidate.id}`}
+			className="flex items-start p-4 bg-white dark:bg-slate-800 rounded-lg shadow-sm gap-4 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-md dark:hover:shadow-slate-900/50 no-underline text-inherit"
+		>
 			<img
 				src={candidate.picture}
 				alt={`${candidate.first_name} ${candidate.last_name}`}
@@ -31,6 +35,6 @@ export function CandidateRow({ candidate }: CandidateRowProps) {
 					</div>
 				)}
 			</div>
-		</div>
+		</Link>
 	);
 }

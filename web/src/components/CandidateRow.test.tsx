@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { CandidateRow } from './CandidateRow';
 import type { Candidate } from '../types';
 import { describe, it, expect } from 'vitest';
@@ -15,7 +16,11 @@ const mockCandidate: Candidate = {
 
 describe('CandidateRow', () => {
 	it('renders candidate information correctly', () => {
-		render(<CandidateRow candidate={mockCandidate} />);
+		render(
+			<MemoryRouter>
+				<CandidateRow candidate={mockCandidate} />
+			</MemoryRouter>,
+		);
 
 		// Check name
 		expect(screen.getByText('Jane Doe')).toBeInTheDocument();
@@ -38,7 +43,11 @@ describe('CandidateRow', () => {
 
 	it('renders correctly without skills', () => {
 		const candidateWithoutSkills = { ...mockCandidate, skills: [] };
-		render(<CandidateRow candidate={candidateWithoutSkills} />);
+		render(
+			<MemoryRouter>
+				<CandidateRow candidate={candidateWithoutSkills} />
+			</MemoryRouter>,
+		);
 
 		expect(screen.getByText('Jane Doe')).toBeInTheDocument();
 		expect(screen.queryByText('React')).not.toBeInTheDocument();

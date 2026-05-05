@@ -1,4 +1,4 @@
-import type { ApiResponse, CandidatesResponse } from '../types';
+import type { ApiResponse, CandidatesResponse, Candidate } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
@@ -11,6 +11,14 @@ export const candidateRepository = {
 		const response = await fetch(url);
 		if (!response.ok) {
 			throw new Error(`Error fetching candidates: ${response.statusText}`);
+		}
+		return response.json();
+	},
+
+	async getCandidate(id: number): Promise<ApiResponse<Candidate>> {
+		const response = await fetch(`${API_URL}/candidates/${id}`);
+		if (!response.ok) {
+			throw new Error(`Error fetching candidate: ${response.statusText}`);
 		}
 		return response.json();
 	},

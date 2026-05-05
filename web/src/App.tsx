@@ -1,4 +1,6 @@
+import { Routes, Route } from 'react-router-dom';
 import { CandidateList } from './components/CandidateList';
+import { CandidateDetail } from './components/CandidateDetail';
 
 export function App() {
 	return (
@@ -9,7 +11,10 @@ export function App() {
 				</h1>
 			</header>
 			<main className="p-8 max-w-6xl mx-auto w-full">
-				<CandidateList />
+				<Routes>
+					<Route path="/" element={<CandidateList />} />
+					<Route path="/candidates/:id" element={<CandidateDetail />} />
+				</Routes>
 			</main>
 		</div>
 	);
