@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import type { Candidate, PaginationData } from "../types";
-import { CandidateRow } from "./CandidateRow";
-import { Pagination } from "./Pagination";
-import { candidateRepository } from "../api/candidateRepository";
+import { useEffect, useState } from 'react';
+import type { Candidate, PaginationData } from '../types';
+import { CandidateRow } from './CandidateRow';
+import { Pagination } from './Pagination';
+import { candidateRepository } from '../api/candidateRepository';
 
 export function CandidateList() {
 	const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -26,9 +26,7 @@ export function CandidateList() {
 						setCandidates(responseJson.data.candidates);
 						setPagination(responseJson.data.pagination);
 					} else {
-						throw new Error(
-							responseJson.errors?.join(", ") || "Unknown error occurred",
-						);
+						throw new Error(responseJson.errors?.join(', ') || 'Unknown error occurred');
 					}
 				}
 			} catch (err: any) {
@@ -50,9 +48,13 @@ export function CandidateList() {
 			<h2 className="text-slate-800 dark:text-slate-100 mb-2 transition-colors">Candidates</h2>
 
 			{isLoading ? (
-				<div className="text-center p-10 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">Loading candidates...</div>
+				<div className="text-center p-10 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">
+					Loading candidates...
+				</div>
 			) : error ? (
-				<div className="text-center p-10 bg-red-50 dark:bg-red-900/20 rounded-lg text-red-500 dark:text-red-400 transition-colors">Error: {error}</div>
+				<div className="text-center p-10 bg-red-50 dark:bg-red-900/20 rounded-lg text-red-500 dark:text-red-400 transition-colors">
+					Error: {error}
+				</div>
 			) : (
 				<>
 					<div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
@@ -62,10 +64,7 @@ export function CandidateList() {
 					</div>
 
 					{pagination && (
-						<Pagination
-							pagination={pagination}
-							onPageChange={(newPage) => setPage(newPage)}
-						/>
+						<Pagination pagination={pagination} onPageChange={(newPage) => setPage(newPage)} />
 					)}
 				</>
 			)}

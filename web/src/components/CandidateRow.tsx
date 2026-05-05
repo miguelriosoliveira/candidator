@@ -1,4 +1,4 @@
-import type { Candidate } from "../types";
+import type { Candidate } from '../types';
 
 interface CandidateRowProps {
 	candidate: Candidate;

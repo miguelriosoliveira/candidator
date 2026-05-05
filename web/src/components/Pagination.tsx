@@ -1,4 +1,4 @@
-import type { PaginationData } from "../types";
+import type { PaginationData } from '../types';
 
 interface PaginationProps {
 	pagination: PaginationData;

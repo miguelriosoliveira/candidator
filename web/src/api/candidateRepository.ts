@@ -1,12 +1,12 @@
-import type { ApiResponse, CandidatesResponse } from "../types";
+import type { ApiResponse, CandidatesResponse } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 export const candidateRepository = {
 	async getCandidates(page?: number): Promise<ApiResponse<CandidatesResponse>> {
 		const url = new URL(`${API_URL}/candidates`);
 		if (page) {
-			url.searchParams.append("page", page.toString());
+			url.searchParams.append('page', page.toString());
 		}
 		const response = await fetch(url);
 		if (!response.ok) {
