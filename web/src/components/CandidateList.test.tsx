@@ -81,4 +81,17 @@ describe('CandidateList', () => {
 			expect(screen.getByText('Page 1 of 1')).toBeInTheDocument();
 		});
 	});
+
+	it('shows Create candidate link to new form', () => {
+		vi.mocked(candidateRepository.getCandidates).mockReturnValue(new Promise(() => {}));
+
+		render(
+			<MemoryRouter>
+				<CandidateList />
+			</MemoryRouter>,
+		);
+
+		const createLink = screen.getByRole('link', { name: /create candidate/i });
+		expect(createLink).toHaveAttribute('href', '/candidates/new');
+	});
 });

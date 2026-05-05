@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { Candidate, PaginationData } from '../types';
 import { CandidateRow } from './CandidateRow';
 import { Pagination } from './Pagination';
@@ -29,8 +30,8 @@ export function CandidateList() {
 						throw new Error(responseJson.errors?.join(', ') || 'Unknown error occurred');
 					}
 				}
-			} catch (err: any) {
-				if (isMounted) setError(err.message);
+			} catch (err) {
+				if (isMounted) setError(err instanceof Error ? err.message : String(err));
 			} finally {
 				if (isMounted) setIsLoading(false);
 			}
@@ -45,7 +46,15 @@ export function CandidateList() {
 
 	return (
 		<div className="flex flex-col gap-4 w-full">
-			<h2 className="text-slate-800 dark:text-slate-100 mb-2 transition-colors">Candidates</h2>
+			<div className="flex flex-row flex-wrap items-center justify-between gap-3 mb-2">
+				<h2 className="text-slate-800 dark:text-slate-100 m-0 transition-colors">Candidates</h2>
+				<Link
+					to="/candidates/new"
+					className="inline-flex items-center rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-sky-500 no-underline shrink-0"
+				>
+					Create candidate
+				</Link>
+			</div>
 
 			{isLoading ? (
 				<div className="text-center p-10 bg-slate-50 dark:bg-slate-800/50 rounded-lg text-slate-500 dark:text-slate-400 transition-colors">

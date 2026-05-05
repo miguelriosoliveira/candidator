@@ -8,6 +8,8 @@ export interface Candidate {
 	skills: string[];
 }
 
+export type CreateCandidateInput = Omit<Candidate, 'id'>;
+
 export interface PaginationData {
 	per_page: number;
 	page: number;
