@@ -2,6 +2,8 @@
 
 This challenge consists of building a very simple app for a managing candidates. There is no frontend provided, but a small in-memory backend in Go is provided. Part of the task will be changing that backend to not be in-memory anymore.
 
+> **Late edit:** Persistence has been implemented (SQLite via a pure-Go driver, no CGO). The sentence above reflects the original challenge wording and is intentionally left in place.
+
 ### What if I do not know Go?
 
 Go is fairly easy to read, but if you don't feel confident with Go you can roll your own in your preferred stack (but please, include instructions on how to run it).
@@ -60,6 +62,8 @@ When the form is submitted, if the response is ok, the user should be redirected
 
 As you may have noticed by now, the data of the candidates is stored in memory. You should change the backend to persist it on a SQL database of your choice. Feel free to make all the changes you want in logic, structure and architecture during this step.
 
+> **Late edit:** The backend persists candidates in **SQLite**. By default it uses `candidator.db` in the process working directory, or **`CANDIDATOR_DB_PATH`** if set. The server seeds an empty database once from embedded `data.json`. See **Backend** below for Docker/volume notes.
+
 **6. (BONUS) Delete candidates**
 
 You will need to implement a `DELETE /candidates/{id}` endpoint in the server and then add a delete button (either in the list or the detail) to delete candidates. User should be asked to confirm the deletion before doing so.
@@ -85,6 +89,19 @@ docker run -d -p 8080:8080 --name remotely-server remotely-server
 ```
 
 The backend has CORS enabled and will run on `localhost:8080`.
+
+> **Late edit:** The server writes a SQLite file by default (`candidator.db` in the process working directory unless **`CANDIDATOR_DB_PATH`** is set — in the `scratch` container image from the Dockerfile, that is typically `/candidator.db`).
+>
+> Docker persistence tip: bind-mount a writable directory or named volume that matches **`CANDIDATOR_DB_PATH`**. Root `docker-compose.yml` mounts `/data` and sets `CANDIDATOR_DB_PATH=/data/candidator.db`.
+>
+> Example one-off run:
+>
+> ```
+> docker run -d -p 8080:8080 \
+>   -e CANDIDATOR_DB_PATH=/data/candidator.db \
+>   -v candidator-db:/data \
+>   --name remotely-server remotely-server
+> ```
 
 ### Endpoints
 
@@ -153,6 +170,8 @@ Returns the requested candidate by ID.
 
 Creates a new candidate on the database. **NOTE**: changes are ephemeral, if the server restarts, the changes are lost.
 
+> **Late edit:** The **NOTE** above is from the original challenge. With SQLite, new candidates **persist across restarts** as long as the database file remains.
+
 Expects a JSON body with the following shape:
 
 ```json
@@ -195,6 +214,8 @@ Expects a JSON body with the following shape:
 #### PATCH /candidates/{id}
 
 Updates the candidate with the given id. **NOTE**: changes are ephemeral, if the server restarts, the changes are lost.
+
+> **Late edit:** Same as POST — updates **persist** to SQLite unless the DB file is removed or replaced.
 
 Expects a JSON body with the following shape:
 

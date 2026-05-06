@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"time"
 
 	"github.com/rs/cors"
@@ -17,11 +18,18 @@ func main() {
 	defer cancel()
 
 	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	db, err := ReadDatabase()
+
+	dbPath := strings.TrimSpace(os.Getenv("CANDIDATOR_DB_PATH"))
+	if dbPath == "" {
+		dbPath = "candidator.db"
+	}
+
+	db, err := OpenSQLite(dbPath)
 	if err != nil {
-		log.Error("could not read db", slog.String("err", err.Error()))
+		log.Error("could not open sqlite database", slog.String("path", dbPath), slog.String("err", err.Error()))
 		os.Exit(1)
 	}
+	defer db.Close()
 
 	cors := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},

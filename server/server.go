@@ -144,7 +144,10 @@ func (s *Server) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var candidate = req.ToCandidate()
-	s.db.Create(candidate)
+	if err := s.db.Create(candidate); err != nil {
+		s.error(w, http.StatusInternalServerError, err)
+		return
+	}
 
 	s.ok(w, http.StatusCreated, candidate)
 }

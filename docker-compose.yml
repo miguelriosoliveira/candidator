@@ -5,4 +5,11 @@ services:
     container_name: candidator-server
     ports:
       - '8080:8080'
+    volumes:
+      - candidator-db:/data
+    environment:
+      CANDIDATOR_DB_PATH: /data/candidator.db
     restart: unless-stopped
+
+volumes:
+  candidator-db:
